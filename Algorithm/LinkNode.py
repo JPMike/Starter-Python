@@ -71,8 +71,8 @@ class LinkList:
             curr = curr.next
         return "->".join(str_list)
 
-    @classmethod
-    def create(cls, node_num):
+    @staticmethod
+    def create(node_num):
         head = LinkNode()
         # copy and reserve head
         curr = head
