@@ -2,6 +2,10 @@ import unittest
 
 
 class TestStringMethods(unittest.TestCase):
+    def setUp(self) -> None:
+        # do something before test
+        pass
+
     def test_upper(self):
         self.assertEqual('foo'.upper(), 'FOO')
 
@@ -14,6 +18,10 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(s.split(), ['hello', 'world'])
         with self.assertRaises(TypeError):
             s.split(2)
+
+    def tearDown(self) -> None:
+        # do something after test
+        pass
 
 
 if __name__ == '__main__':
