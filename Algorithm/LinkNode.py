@@ -1,3 +1,6 @@
+import unittest
+
+
 class LinkNode:
     def __init__(self, data=None, next=None):
         self.data = data
@@ -60,37 +63,49 @@ class LinkList:
         if not curr:
             raise ValueError("Data not in list")
 
-    def print(self):
-        tmp = self.head
-        while tmp:
-            print(tmp, end="")
-            tmp = tmp.next
-        print("")
+    def __str__(self):
+        curr = self.head
+        str_list = []
+        while curr:
+            str_list.append(str(curr.data))
+            curr = curr.next
+        return "->".join(str_list)
 
     @classmethod
     def create(cls, node_num):
         head = LinkNode()
         # copy and reserve head
         curr = head
-        for num in range(node_num):
+        for num in range(1, node_num + 1):
             curr.next = LinkNode(num)
             curr = curr.next
         return LinkList(head.next)
 
 
+class LinkListTest(unittest.TestCase):
+    def setUp(self) -> None:
+        self.link_list = LinkList.create(3)
+
+    def test_create(self):
+        self.assertEqual(self.link_list.__str__(), "1->2->3")
+
+    def test_size(self):
+        self.assertEqual(self.link_list.size(), 3)
+
+    def test_insert(self):
+        self.link_list.insert(4)
+        self.assertEqual(self.link_list.__str__(), "4->1->2->3")
+
+    def test_search(self):
+        found_node = self.link_list.search(3)
+        self.assertEqual(found_node.data, 3)
+        with self.assertRaises(ValueError):
+            self.link_list.search(4)
+
+    def test_delete(self):
+        self.link_list.delete(1)
+        self.assertEqual(self.link_list.__str__(), "2->3")
+
+
 if __name__ == "__main__":
-    link_list = LinkList.create(10)
-    print("origin:")
-    link_list.print()
-    print("size: {}".format(link_list.size()))
-    print("insert: 10")
-    link_list.insert(10)
-    link_list.print()
-    print("size: {}".format(link_list.size()))
-    print("search: 5")
-    print(link_list.search(5))
-    print("delete first found: 5")
-    link_list.delete(5)
-    print("after: ")
-    link_list.print()
-    print("size: {}".format(link_list.size()))
+    unittest.main()

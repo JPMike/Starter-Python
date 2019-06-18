@@ -1,4 +1,5 @@
 from functools import wraps
+import unittest
 
 
 def stair_climbing_cache(func):
@@ -27,10 +28,13 @@ def stair_climbing(total_stairs):
         return stair_climbing(total_stairs - 1) + stair_climbing(total_stairs - 2)
 
 
+class Test(unittest.TestCase):
+    def test_stair_climbing(self):
+        self.assertEqual(stair_climbing(total_stairs=4), 5)
+
+
 if __name__ == "__main__":
     import timeit
 
-    # test case: total_stairs = 4, answer = 5
-    answer = stair_climbing(total_stairs=5)
-    print(answer)
-    print(timeit.timeit("stair_climbing(total_stairs=5)", setup="from __main__ import stair_climbing"))
+    print(timeit.timeit("stair_climbing(total_stairs=4)", setup="from __main__ import stair_climbing"))
+    unittest.main()
