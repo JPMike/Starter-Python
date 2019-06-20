@@ -31,6 +31,7 @@ def wait_for_event_timeout(e, t):
 if __name__ == '__main__':
     # signaling between threads
     # use event object to communicate between threads
+    # event default to false
     e = threading.Event()
     t1 = threading.Thread(
         name='block',
@@ -48,5 +49,6 @@ if __name__ == '__main__':
 
     logging.debug('Waiting before calling Event.set()')
     time.sleep(0.3)
+    # set event to true
     e.set()
     logging.debug('Event is set')
