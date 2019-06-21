@@ -1,5 +1,4 @@
 import asyncio
-import time
 
 
 async def outer():
@@ -15,13 +14,13 @@ async def outer():
 
 async def phase1():
     print('in phase1')
-    time.sleep(0.5)
+    await asyncio.sleep(0.5)
     return 'result1'
 
 
 async def phase2(arg):
     print('in phase2')
-    time.sleep(0.5)
+    await asyncio.sleep(0.5)
     return f'result2 derived from {arg}'
 
 
