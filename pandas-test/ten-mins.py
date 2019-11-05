@@ -99,12 +99,88 @@ def object_creation_test():
 
 def merge_test():
     df = pd.DataFrame(np.random.randn(10, 4))
-    my_print(df)
+    my_print("df:", df)
+    pieces = [df[:3], df[3:7], df[7:]]
+    my_print("pieces:", pd.concat(pieces))
+
+
+def join_test():
+    left = pd.DataFrame({'key': ['foo', 'foo'], 'lval': [1, 2]})
+    right = pd.DataFrame({'key': ['foo', 'foo'], 'lval': [4, 5]})
+    my_print("left:", left)
+    my_print("right", right)
+    my_print("merge", pd.merge(left, right, on='key'))
+
+
+def append_test():
+    df = pd.DataFrame(np.random.randn(8, 4), columns=['A', 'B', 'C', 'D'])
+    my_print("df:", df)
+    s = df.iloc[3]
+    my_print("append:", df.append(s, ignore_index=True))
+
+
+def grouping_test():
+    df = pd.DataFrame({'A': ['foo', 'bar', 'foo', 'bar', 'foo', 'bar', 'foo', 'foo'],
+                       'B': ['one', 'one', 'two', 'three', 'two', 'two', 'one', 'three'],
+                       'C': np.random.randn(8),
+                       'D': np.random.randn(8)})
+    my_print("df:", df)
+    my_print("grouping by A:", df.groupby('A').sum())
+    my_print("grouping by A and B:", df.groupby(['A', 'B']).sum())
+
+
+def reshaping_test():
+    tuples = list(zip(*[['bar', 'bar', 'baz', 'baz', 'foo', 'foo', 'qux', 'qux'],
+                        ['one', 'two', 'one', 'two', 'one', 'two', 'one', 'two']]))
+    my_print("tuples:", tuples)
+    index = pd.MultiIndex.from_tuples(tuples, names=['first', 'second'])
+    df = pd.DataFrame(np.random.randn(8, 2), index=index, columns=['A', 'B'])
+    my_print("df:", df)
+    stacked = df.stack()
+    my_print("stacked:", stacked)
+    my_print("unstack:", stacked.unstack())
+    my_print("unstack(1):", stacked.unstack(1))
+    my_print("unstack(0):", stacked.unstack(0))
+
+
+def pivot_test():
+    df = pd.DataFrame({'A': ['one', 'one', 'two', 'three'] * 3,
+                       'B': ['A', 'B', 'C'] * 4,
+                       'C': ['foo', 'foo', 'foo', 'bar', 'bar', 'bar'] * 2,
+                       'D': np.random.randn(12),
+                       'E': np.random.randn(12)})
+    my_print("df:", df)
+    my_print("pivot table:", pd.pivot_table(df, values='D', index=['A', 'B'], columns=['C']))
+
+
+def time_series_test1():
+    rng = pd.date_range("20191105", periods=100, freq='S')
+    my_print("rng:", rng)
+    ts = pd.Series(np.random.randint(0, 500, len(rng)), index=rng)
+    my_print("ts:", ts)
+    my_print("sum:", ts.resample('5Min').sum())
+
+
+def time_series_test2():
+    rng = pd.date_range("20191105", periods=5, freq='D')
+    my_print("rng:", rng)
+    ts = pd.Series(np.random.randint(len(rng)), index=rng)
+    my_print("ts:", ts)
+    ts_utc = ts.tz_localize('UTC')
+    my_print("ts utc:", ts_utc)
+    my_print("ts US/Eastern:", ts_utc.tz_convert('US/Eastern'))
 
 
 def test():
     # object_creation_test()
-    merge_test()
+    # merge_test()
+    # join_test()
+    # append_test()
+    # grouping_test()
+    # reshaping_test()
+    # pivot_test()
+    # time_series_test1()
+    time_series_test2()
     pass
 
 
