@@ -2,6 +2,7 @@ attrs==19.3.0
 Automat==0.8.0
 cffi==1.13.2
 Click==7.0
+colorama==0.4.3
 constantly==15.1.0
 cryptography==2.8
 cssselect==1.1.0
@@ -18,6 +19,7 @@ MarkupSafe==1.1.1
 numpy==1.17.4
 pandas==0.25.3
 parsel==1.5.2
+pretty-errors==1.2.7
 Protego==0.1.15
 pyasn1==0.4.8
 pyasn1-modules==0.2.7
